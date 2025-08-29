@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { KanbanState, Column, Task, CreateColumnData, CreateTaskData, UpdateTaskData, MoveTaskData } from '../types';
+import type { KanbanState, CreateColumnData, CreateTaskData, UpdateTaskData, MoveTaskData } from '../types';
 import { createTask, createColumn, reorderArray, generateId } from '../utils';
 import { socketService } from '../services/socketService';
 

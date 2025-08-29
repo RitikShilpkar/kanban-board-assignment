@@ -16,34 +16,36 @@ body {
 
 .kanban-container {
   min-height: 100vh;
-  padding: 24px;
+  padding: 16px;
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 }
 
 .kanban-header {
   max-width: 1200px;
-  margin: 0 auto 32px auto;
+  margin: 0 auto 24px auto;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .kanban-title {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: bold;
   color: #1a202c;
-  margin-bottom: 8px;
+  text-align: center;
 }
 
 .kanban-subtitle {
   color: #4a5568;
-  font-size: 1.1rem;
+  font-size: 1rem;
+  text-align: center;
 }
 
 .kanban-controls {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 24px;
+  gap: 16px;
 }
 
 .users-online {
@@ -54,6 +56,7 @@ body {
   padding: 8px 16px;
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  font-size: 0.875rem;
 }
 
 .online-indicator {
@@ -79,6 +82,8 @@ body {
   cursor: pointer;
   transition: all 0.2s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-size: 0.875rem;
+  min-width: 140px;
 }
 
 .add-column-btn:hover {
@@ -88,28 +93,30 @@ body {
 
 .add-column-form {
   max-width: 1200px;
-  margin: 0 auto 32px auto;
-  padding: 24px;
+  margin: 0 auto 24px auto;
+  padding: 20px;
   background: white;
-  border-radius: 16px;
+  border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border: 1px solid #e2e8f0;
 }
 
 .form-title {
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   font-weight: 600;
   color: #1a202c;
   margin-bottom: 16px;
+  text-align: center;
 }
 
 .form-row {
   display: flex;
-  gap: 16px;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .form-input {
-  flex: 1;
+  width: 100%;
   padding: 12px;
   border: 1px solid #e2e8f0;
   border-radius: 8px;
@@ -124,7 +131,7 @@ body {
 }
 
 .btn-primary {
-  padding: 12px 24px;
+  padding: 12px 20px;
   background: #667eea;
   color: white;
   border: none;
@@ -132,6 +139,7 @@ body {
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  font-size: 0.875rem;
 }
 
 .btn-primary:hover {
@@ -139,7 +147,7 @@ body {
 }
 
 .btn-secondary {
-  padding: 12px 24px;
+  padding: 12px 20px;
   background: #e2e8f0;
   color: #4a5568;
   border: none;
@@ -147,6 +155,7 @@ body {
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  font-size: 0.875rem;
 }
 
 .btn-secondary:hover {
@@ -157,23 +166,23 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
-  gap: 32px;
-  overflow-x: auto;
-  padding-bottom: 24px;
+  flex-direction: column;
+  gap: 20px;
+  padding-bottom: 20px;
 }
 
 .column {
   background: #f7fafc;
   border-radius: 12px;
   padding: 16px;
-  min-width: 320px;
+  width: 100%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .column-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 12px;
   margin-bottom: 16px;
 }
 
@@ -181,11 +190,13 @@ body {
   font-size: 1.125rem;
   font-weight: 600;
   color: #1a202c;
+  text-align: center;
 }
 
 .column-actions {
   display: flex;
-  gap: 8px;
+  justify-content: center;
+  gap: 12px;
 }
 
 .action-btn {
@@ -193,34 +204,40 @@ body {
   border: none;
   color: #a0aec0;
   cursor: pointer;
-  font-size: 0.875rem;
+  font-size: 1rem;
   transition: color 0.2s ease;
+  padding: 4px;
 }
 
 .action-btn:hover {
   color: #4a5568;
 }
 
+.add-task-section {
+  margin-bottom: 16px;
+}
+
 .add-task-btn {
   width: 100%;
-  padding: 8px;
+  padding: 12px;
   color: #718096;
   border: 2px dashed #cbd5e0;
   border-radius: 8px;
   background: transparent;
   cursor: pointer;
   transition: all 0.2s ease;
-  margin-bottom: 16px;
+  font-size: 0.875rem;
 }
 
 .add-task-btn:hover {
   border-color: #a0aec0;
   color: #4a5568;
+  background: #f7fafc;
 }
 
 .add-task-form {
   margin-bottom: 16px;
-  padding: 12px;
+  padding: 16px;
   background: white;
   border-radius: 8px;
   border: 1px solid #e2e8f0;
@@ -229,44 +246,47 @@ body {
 .task-input {
   width: 100%;
   margin-bottom: 8px;
-  padding: 8px;
+  padding: 10px;
   border: 1px solid #e2e8f0;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 0.875rem;
 }
 
 .task-textarea {
   width: 100%;
   margin-bottom: 12px;
-  padding: 8px;
+  padding: 10px;
   border: 1px solid #e2e8f0;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 0.875rem;
   resize: none;
   font-family: inherit;
+  min-height: 60px;
 }
 
 .form-buttons {
   display: flex;
   gap: 8px;
+  justify-content: center;
 }
 
 .btn-small {
-  padding: 6px 12px;
+  padding: 8px 16px;
   font-size: 0.75rem;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
   font-weight: 500;
+  min-width: 60px;
 }
 
 .task-list {
-  min-height: 80px;
+  min-height: 60px;
 }
 
 .task {
   background: white;
-  padding: 12px;
+  padding: 16px;
   border-radius: 8px;
   border: 1px solid #e2e8f0;
   margin-bottom: 12px;
@@ -281,58 +301,424 @@ body {
 
 .task-header {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 8px;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
 }
 
 .task-title {
   font-weight: 500;
   color: #1a202c;
   font-size: 0.875rem;
+  word-break: break-word;
 }
 
 .task-actions {
   display: flex;
-  gap: 4px;
+  gap: 8px;
+  justify-content: center;
 }
 
 .task-description {
   color: #4a5568;
   font-size: 0.75rem;
   line-height: 1.4;
+  margin-bottom: 8px;
+  word-break: break-word;
 }
 
 .task-date {
-  margin-top: 8px;
   font-size: 0.75rem;
   color: #a0aec0;
+  text-align: center;
 }
 
 .task.dragging {
   opacity: 0.5;
 }
 
-@media (max-width: 768px) {
+/* Tablet styles */
+@media (min-width: 768px) {
   .kanban-container {
-    padding: 16px;
+    padding: 20px;
   }
-  
+
   .kanban-header {
-    flex-direction: column;
-    gap: 16px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+
+  .kanban-title {
+    font-size: 2.5rem;
+    text-align: left;
+    margin-bottom: 8px;
+  }
+
+  .kanban-subtitle {
+    text-align: left;
+  }
+
+  .kanban-controls {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .form-row {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .form-input {
+    flex: 1;
+  }
+
+  .kanban-board {
+    flex-direction: row;
+    gap: 24px;
+    overflow-x: auto;
+  }
+
+  .column {
+    min-width: 300px;
+    width: auto;
+  }
+
+  .column-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .column-title {
+    text-align: left;
+  }
+
+  .task-header {
+    flex-direction: row;
+    justify-content: space-between;
     align-items: flex-start;
   }
-  
-  .form-row {
-    flex-direction: column;
+
+  .task-actions {
+    justify-content: flex-end;
   }
-  
+
+  .task-date {
+    text-align: right;
+  }
+}
+
+/* Desktop styles */
+@media (min-width: 1024px) {
+  .kanban-container {
+    padding: 24px;
+  }
+
+  .kanban-header {
+    margin-bottom: 40px;
+  }
+
+  .kanban-title {
+    font-size: 3rem;
+  }
+
+  .kanban-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .add-column-form {
+    padding: 24px;
+    margin-bottom: 32px;
+  }
+
+  .form-title {
+    font-size: 1.25rem;
+  }
+
+  .form-row {
+    gap: 16px;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    padding: 12px 24px;
+    font-size: 1rem;
+  }
+
+  .kanban-board {
+    gap: 32px;
+  }
+
+  .column {
+    min-width: 320px;
+    padding: 20px;
+  }
+
+  .column-title {
+    font-size: 1.25rem;
+  }
+
+  .task {
+    padding: 20px;
+  }
+
+  .task-title {
+    font-size: 1rem;
+  }
+
+  .task-description {
+    font-size: 0.875rem;
+  }
+
+  .btn-small {
+    padding: 10px 20px;
+    font-size: 0.875rem;
+    min-width: 80px;
+  }
+}
+
+/* Large desktop styles */
+@media (min-width: 1280px) {
+  .kanban-container {
+    padding: 32px;
+  }
+
+  .kanban-header {
+    margin-bottom: 48px;
+  }
+
+  .kanban-title {
+    font-size: 3.5rem;
+  }
+
+  .kanban-subtitle {
+    font-size: 1.25rem;
+  }
+
+  .add-column-form {
+    padding: 32px;
+    margin-bottom: 40px;
+  }
+
+  .form-title {
+    font-size: 1.5rem;
+  }
+
+  .form-row {
+    gap: 20px;
+  }
+
+  .form-input {
+    padding: 16px;
+    font-size: 1rem;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    padding: 16px 32px;
+    font-size: 1.125rem;
+  }
+
+  .kanban-board {
+    gap: 40px;
+  }
+
+  .column {
+    min-width: 360px;
+    padding: 24px;
+  }
+
+  .column-title {
+    font-size: 1.5rem;
+  }
+
+  .task {
+    padding: 24px;
+  }
+
+  .task-title {
+    font-size: 1.125rem;
+  }
+
+  .task-description {
+    font-size: 1rem;
+  }
+
+  .btn-small {
+    padding: 12px 24px;
+    font-size: 1rem;
+    min-width: 100px;
+  }
+}
+
+/* Extra large screens */
+@media (min-width: 1536px) {
+  .kanban-container {
+    padding: 40px;
+  }
+
+  .kanban-header {
+    margin-bottom: 56px;
+  }
+
+  .kanban-title {
+    font-size: 4rem;
+  }
+
+  .kanban-subtitle {
+    font-size: 1.5rem;
+  }
+
+  .add-column-form {
+    padding: 40px;
+    margin-bottom: 48px;
+  }
+
+  .form-title {
+    font-size: 1.75rem;
+  }
+
+  .form-row {
+    gap: 24px;
+  }
+
+  .form-input {
+    padding: 20px;
+    font-size: 1.125rem;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    padding: 20px 40px;
+    font-size: 1.25rem;
+  }
+
+  .kanban-board {
+    gap: 48px;
+  }
+
+  .column {
+    min-width: 400px;
+    padding: 32px;
+  }
+
+  .column-title {
+    font-size: 1.75rem;
+  }
+
+  .task {
+    padding: 32px;
+  }
+
+  .task-title {
+    font-size: 1.25rem;
+  }
+
+  .task-description {
+    font-size: 1.125rem;
+  }
+
+  .btn-small {
+    padding: 16px 32px;
+    font-size: 1.125rem;
+    min-width: 120px;
+  }
+}
+
+/* Landscape orientation adjustments for mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .kanban-container {
+    padding: 12px;
+  }
+
+  .kanban-header {
+    margin-bottom: 16px;
+  }
+
+  .kanban-title {
+    font-size: 1.5rem;
+  }
+
+  .kanban-subtitle {
+    font-size: 0.875rem;
+  }
+
+  .add-column-form {
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+
+  .form-title {
+    font-size: 1rem;
+    margin-bottom: 12px;
+  }
+
+  .form-row {
+    gap: 8px;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    padding: 8px 16px;
+    font-size: 0.75rem;
+  }
+
   .kanban-board {
     gap: 16px;
   }
-  
+
   .column {
-    min-width: 280px;
+    padding: 12px;
+  }
+
+  .column-title {
+    font-size: 1rem;
+  }
+
+  .task {
+    padding: 12px;
+  }
+
+  .task-title {
+    font-size: 0.875rem;
+  }
+
+  .task-description {
+    font-size: 0.75rem;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .task {
+    border-width: 2px;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    border: 2px solid currentColor;
+  }
+
+  .form-input,
+  .task-input,
+  .task-textarea {
+    border-width: 2px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .add-column-btn:hover {
+    transform: none;
+  }
+
+  .task:hover {
+    transition: none;
+  }
+
+  .online-indicator {
+    animation: none;
   }
 }

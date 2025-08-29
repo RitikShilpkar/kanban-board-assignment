@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { KanbanBoard } from './components/KanbanBoard';
 import { socketService } from './services/socketService';
 import { useKanbanStore } from './store/kanbanStore';
+import './index.css';
 
 function App() {
   const { setUsersOnline, initializeSocketListeners } = useKanbanStore();
