@@ -9,14 +9,28 @@ function App() {
 
   useEffect(() => {
     const socket = socketService.connect();
-    initializeSocketListeners();
+    
+    const setupListeners = () => {
+      console.log('🔧 Setting up socket listeners...');
+      initializeSocketListeners();
+    };
 
-    socket.on('userConnected', () => {
-      setUsersOnline(1);
+    if (socket) {
+      if (socket.connected) {
+        setupListeners();
+      } else {
+        socket.on('connect', setupListeners);
+      }
+    }
+
+    socket?.on('userConnected', (data: { userId: string; totalUsers: number }) => {
+      console.log('👤 User connected:', data);
+      setUsersOnline(data.totalUsers);
     });
 
-    socket.on('userDisconnected', () => {
-      setUsersOnline(0);
+    socket?.on('userDisconnected', (data: { totalUsers: number }) => {
+      console.log('👤 User disconnected:', data);
+      setUsersOnline(data.totalUsers);
     });
 
     return () => {

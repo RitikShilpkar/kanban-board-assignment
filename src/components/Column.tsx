@@ -7,16 +7,20 @@ import type { Column as ColumnType } from '../types';
 
 interface ColumnProps {
   column: ColumnType;
+  index: number;
 }
 
-export const Column: React.FC<ColumnProps> = ({ column }) => {
+export const Column: React.FC<ColumnProps> = ({ column, index }) => {
   const [isAddingTask, setIsAddingTask] = useState(false);
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const [newTaskDescription, setNewTaskDescription] = useState('');
+  const [newTaskAssignedTo, setNewTaskAssignedTo] = useState('');
+  const [newTaskDueDate, setNewTaskDueDate] = useState('');
+  const [newTaskPriority, setNewTaskPriority] = useState<'low' | 'medium' | 'high'>('medium');
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [editTitle, setEditTitle] = useState(column.title);
   
-  const { addTask, updateColumn, deleteColumn, tasks } = useKanbanStore();
+  const { addTask, updateColumn, deleteColumn, moveColumn, tasks } = useKanbanStore();
   
   const { setNodeRef } = useDroppable({
     id: column.id,
@@ -30,9 +34,15 @@ export const Column: React.FC<ColumnProps> = ({ column }) => {
         title: newTaskTitle.trim(),
         description: newTaskDescription.trim(),
         columnId: column.id,
+        assignedTo: newTaskAssignedTo.trim() || undefined,
+        dueDate: newTaskDueDate ? new Date(newTaskDueDate) : undefined,
+        priority: newTaskPriority,
       });
       setNewTaskTitle('');
       setNewTaskDescription('');
+      setNewTaskAssignedTo('');
+      setNewTaskDueDate('');
+      setNewTaskPriority('medium');
       setIsAddingTask(false);
     }
   };
@@ -47,6 +57,13 @@ export const Column: React.FC<ColumnProps> = ({ column }) => {
   const handleDeleteColumn = () => {
     if (window.confirm('Are you sure you want to delete this column? All tasks will be lost.')) {
       deleteColumn(column.id);
+    }
+  };
+
+  const handleMoveColumn = (direction: 'left' | 'right') => {
+    const newIndex = direction === 'left' ? index - 1 : index + 1;
+    if (newIndex >= 0) {
+      moveColumn(column.id, newIndex);
     }
   };
 
@@ -85,12 +102,30 @@ export const Column: React.FC<ColumnProps> = ({ column }) => {
           <button
             onClick={() => setIsEditingTitle(true)}
             className="action-btn"
+            title="Edit column title"
           >
             ✏️
           </button>
           <button
+            onClick={() => handleMoveColumn('left')}
+            className="action-btn"
+            disabled={index === 0}
+            title="Move column left"
+          >
+            ⬅️
+          </button>
+          <button
+            onClick={() => handleMoveColumn('right')}
+            className="action-btn"
+            disabled={index === 2}
+            title="Move column right"
+          >
+            ➡️
+          </button>
+          <button
             onClick={handleDeleteColumn}
             className="action-btn"
+            title="Delete column"
           >
             🗑️
           </button>
@@ -122,6 +157,29 @@ export const Column: React.FC<ColumnProps> = ({ column }) => {
             placeholder="Task description"
             rows={2}
           />
+          <input
+            type="text"
+            value={newTaskAssignedTo}
+            onChange={(e) => setNewTaskAssignedTo(e.target.value)}
+            className="task-input"
+            placeholder="Assigned to (optional)"
+          />
+          <input
+            type="date"
+            value={newTaskDueDate}
+            onChange={(e) => setNewTaskDueDate(e.target.value)}
+            className="task-input"
+            placeholder="Due date (optional)"
+          />
+          <select
+            value={newTaskPriority}
+            onChange={(e) => setNewTaskPriority(e.target.value as 'low' | 'medium' | 'high')}
+            className="task-input"
+          >
+            <option value="low">Low Priority</option>
+            <option value="medium">Medium Priority</option>
+            <option value="high">High Priority</option>
+          </select>
           <div className="form-buttons">
             <button
               onClick={handleAddTask}
@@ -134,6 +192,9 @@ export const Column: React.FC<ColumnProps> = ({ column }) => {
                 setIsAddingTask(false);
                 setNewTaskTitle('');
                 setNewTaskDescription('');
+                setNewTaskAssignedTo('');
+                setNewTaskDueDate('');
+                setNewTaskPriority('medium');
               }}
               className="btn-small btn-secondary"
             >

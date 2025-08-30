@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import type { Task as TaskType } from '../types';
 import { useKanbanStore } from '../store/kanbanStore';
+import type { Task as TaskType } from '../types';
+import { formatDate, isOverdue, getPriorityColor, getPriorityLabel } from '../utils';
 
 interface TaskProps {
   task: TaskType;
@@ -10,12 +11,16 @@ interface TaskProps {
 }
 
 export const Task: React.FC<TaskProps> = ({ task, columnId }) => {
+  const { updateTask, deleteTask } = useKanbanStore();
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(task.title);
-  const [editDescription, setEditDescription] = useState(task.description);
-  
-  const { updateTask, deleteTask } = useKanbanStore();
-  
+  const [editDescription, setEditDescription] = useState(task.description || '');
+  const [editAssignedTo, setEditAssignedTo] = useState(task.assignedTo || '');
+  const [editDueDate, setEditDueDate] = useState(
+    task.dueDate ? (task.dueDate instanceof Date ? task.dueDate.toISOString().split('T')[0] : String(task.dueDate).split('T')[0]) : ''
+  );
+  const [editPriority, setEditPriority] = useState(task.priority);
+
   const {
     attributes,
     listeners,
@@ -34,52 +39,83 @@ export const Task: React.FC<TaskProps> = ({ task, columnId }) => {
   const handleSave = () => {
     updateTask({
       id: task.id,
-      title: editTitle,
-      description: editDescription,
+      title: editTitle.trim(),
+      description: editDescription.trim() || undefined,
+      assignedTo: editAssignedTo.trim() || undefined,
+      dueDate: editDueDate ? new Date(editDueDate) : undefined,
+      priority: editPriority,
     });
     setIsEditing(false);
   };
 
   const handleCancel = () => {
     setEditTitle(task.title);
-    setEditDescription(task.description);
+    setEditDescription(task.description || '');
+    setEditAssignedTo(task.assignedTo || '');
+    setEditDueDate(
+      task.dueDate ? (task.dueDate instanceof Date ? task.dueDate.toISOString().split('T')[0] : String(task.dueDate).split('T')[0]) : ''
+    );
+    setEditPriority(task.priority);
     setIsEditing(false);
   };
 
   const handleDelete = () => {
-    deleteTask(task.id, columnId);
+    if (confirm('Are you sure you want to delete this task?')) {
+      deleteTask(task.id, columnId);
+    }
   };
+
+  const dueDate = task.dueDate ? (task.dueDate instanceof Date ? task.dueDate : new Date(task.dueDate)) : null;
+  const isOverdueTask = dueDate ? isOverdue(dueDate) : false;
 
   if (isEditing) {
     return (
-      <div ref={setNodeRef} style={style} className="task">
-        <input
-          type="text"
-          value={editTitle}
-          onChange={(e) => setEditTitle(e.target.value)}
-          className="task-input"
-          placeholder="Task title"
-        />
-        <textarea
-          value={editDescription}
-          onChange={(e) => setEditDescription(e.target.value)}
-          className="task-textarea"
-          placeholder="Task description"
-          rows={2}
-        />
-        <div className="form-buttons">
-          <button
-            onClick={handleSave}
-            className="btn-small btn-primary"
+      <div className="task task-editing">
+        <div className="task-form">
+          <input
+            type="text"
+            value={editTitle}
+            onChange={(e) => setEditTitle(e.target.value)}
+            className="form-input"
+            placeholder="Task title"
+          />
+          <textarea
+            value={editDescription}
+            onChange={(e) => setEditDescription(e.target.value)}
+            className="form-textarea"
+            placeholder="Task description (optional)"
+            rows={3}
+          />
+          <input
+            type="text"
+            value={editAssignedTo}
+            onChange={(e) => setEditAssignedTo(e.target.value)}
+            className="form-input"
+            placeholder="Assigned to (optional)"
+          />
+          <input
+            type="date"
+            value={editDueDate}
+            onChange={(e) => setEditDueDate(e.target.value)}
+            className="form-input"
+          />
+          <select
+            value={editPriority}
+            onChange={(e) => setEditPriority(e.target.value as 'low' | 'medium' | 'high')}
+            className="form-select"
           >
-            Save
-          </button>
-          <button
-            onClick={handleCancel}
-            className="btn-small btn-secondary"
-          >
-            Cancel
-          </button>
+            <option value="low">Low Priority</option>
+            <option value="medium">Medium Priority</option>
+            <option value="high">High Priority</option>
+          </select>
+          <div className="task-actions">
+            <button onClick={handleSave} className="btn-primary">
+              Save
+            </button>
+            <button onClick={handleCancel} className="btn-secondary">
+              Cancel
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -95,24 +131,46 @@ export const Task: React.FC<TaskProps> = ({ task, columnId }) => {
     >
       <div className="task-header">
         <h3 className="task-title">{task.title}</h3>
-        <div className="task-actions">
-          <button
-            onClick={() => setIsEditing(true)}
-            className="action-btn"
-          >
-            ✏️
-          </button>
-          <button
-            onClick={handleDelete}
-            className="action-btn"
-          >
-            🗑️
-          </button>
+        <div className="task-priority">
+          <span className={`priority-badge priority-${task.priority}`}>
+            {getPriorityLabel(task.priority)}
+          </span>
         </div>
       </div>
-      <p className="task-description">{task.description}</p>
-      <div className="task-date">
-        {new Date(task.updatedAt).toLocaleDateString()}
+      
+      {task.description && (
+        <p className="task-description">{task.description}</p>
+      )}
+      
+      {task.assignedTo && (
+        <div className="task-assigned">
+          <span className="assigned-label">Assigned to:</span>
+          <span className="assigned-value">{task.assignedTo}</span>
+        </div>
+      )}
+      
+      {dueDate && (
+        <div className={`task-due-date ${isOverdueTask ? 'overdue' : ''}`}>
+          <span className="due-label">Due:</span>
+          <span className="due-value">{formatDate(dueDate)}</span>
+          {isOverdueTask && <span className="overdue-badge">Overdue</span>}
+        </div>
+      )}
+      
+      <div className="task-footer">
+        <div className="task-actions">
+          <button onClick={() => setIsEditing(true)} className="btn-secondary">
+            Edit
+          </button>
+          <button onClick={handleDelete} className="btn-danger">
+            Delete
+          </button>
+        </div>
+        <div className="task-meta">
+          <span className="task-created">
+            Created: {formatDate(task.createdAt)}
+          </span>
+        </div>
       </div>
     </div>
   );
