@@ -505,7 +505,7 @@ export const useKanbanStore = create<KanbanState & KanbanActions>((set, get) => 
 
       console.log('📥 Setting new columns state:', newColumns);
       
-      set((state) => ({
+      set(() => ({
         columns: newColumns,
       }));
     });

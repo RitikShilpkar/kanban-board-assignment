@@ -3,7 +3,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useKanbanStore } from '../store/kanbanStore';
 import type { Task as TaskType } from '../types';
-import { formatDate, isOverdue, getPriorityColor, getPriorityLabel } from '../utils';
+import { formatDate, isOverdue, getPriorityLabel } from '../utils';
 
 interface TaskProps {
   task: TaskType;

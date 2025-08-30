@@ -101,7 +101,7 @@ export const KanbanBoard: React.FC = () => {
     }
   };
 
-  const handleDragOver = (event: DragOverEvent) => {
+  const handleDragOver = (_event: DragOverEvent) => {
   };
 
   const handleAddColumn = () => {
