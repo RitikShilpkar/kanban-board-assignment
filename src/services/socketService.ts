@@ -3,7 +3,7 @@ import type { SocketEvents } from '../types';
 
 class SocketService {
   private socket: Socket | null = null;
-  private url = 'http://localhost:3001';
+  private url = import.meta.env.VITE_SOCKET_URL || 'https://kanban-board-assignment-a5ep.onrender.com';
   private reconnectAttempts = 0;
   private maxReconnectAttempts = 5;
 
